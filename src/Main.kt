@@ -6,5 +6,14 @@ Un refugio de rescate de animales necesita un sistema para gestionar no solo el 
 */
 
 fun main() {
+    val animal1 = Animal("213", "Rodolfo", "Delmo", 12, "Listo")
+    val animal2 = Animal("123", "Angel", "Delmo", 12, "Listo")
+    val adoptante = Adoptante("12345678","Ariel Ladner", "+543564999999")
+    val atencionMedica = AtencionMedica("12/04", "Nada", "Nicolas")
 
+    val gestorRefugio = GestorRefugio()
+
+    gestorRefugio.agregarAnimal(animal1)
+    gestorRefugio.agregarAnimal(animal2)
+    gestorRefugio.mostrarListosParaAdopcion()
 }

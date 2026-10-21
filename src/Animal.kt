@@ -3,14 +3,12 @@ class Animal(
     val nombre: String,
     val especie: String,
     val edadMeses: Int,
-    var estado: String // var porque el estado puede cambiar (ej: de "Listo" a "Adoptado")
+    var estado: String // ("Listo", "Adoptado")
 ) {
-    // Lista interna para el historial médico
     private val historialMedico = mutableListOf<AtencionMedica>()
 
-    // Puede tener un adoptante o ser null (?) si sigue en el refugio
     var adoptante: Adoptante? = null
-        private set // Solo se puede modificar desde las funciones de esta clase
+        private set
 
     fun registrarAtencion(atencion: AtencionMedica) {
         historialMedico.add(atencion)

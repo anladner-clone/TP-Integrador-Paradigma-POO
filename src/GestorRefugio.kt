@@ -1,19 +1,21 @@
 class GestorRefugio {
-    private val listaAnimales = mutableListOf<Animal>()
+    private val listaAnimales = arrayListOf<Animal>()
 
     fun agregarAnimal(animal: Animal) {
         listaAnimales.add(animal)
     }
 
     fun buscarPorFicha(ficha: String): Animal? {
-        return listaAnimales.find { it.numeroFicha == ficha }
+        for (animal in listaAnimales) {
+            if (animal.numeroFicha == ficha) return animal
+        }
+        return null
     }
 
-    // Nueva función para gestionar el proceso de adopción
     fun procesarAdopcion(ficha: String, adoptante: Adoptante) {
         val animal = buscarPorFicha(ficha)
         if (animal != null) {
-            if (animal.estado == "Listo para adopción") {
+            if (animal.estado == "Listo") {
                 animal.asignarAdoptante(adoptante)
                 println("¡Éxito! ${animal.nombre} ha sido adoptado por ${adoptante.nombreCompleto}.")
             } else {
@@ -26,7 +28,12 @@ class GestorRefugio {
 
     fun mostrarListosParaAdopcion() {
         println("--- ANIMALES LISTOS PARA ADOPCIÓN ---")
-        val filtrados = listaAnimales.filter { it.estado == "Listo para adopción" }
-        filtrados.forEach { println(it) }
+        val filtrados = arrayListOf<Animal>()
+        for (animal in listaAnimales) {
+            if (animal.estado == "Listo") filtrados.add(animal)
+        }
+        for (animal in filtrados) {
+            println(animal)
+        }
     }
 }
