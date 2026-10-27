@@ -16,10 +16,12 @@ class Animal(
 
     fun mostrarHistorialMedico() {
         println("--- Historial Médico de $nombre (Ficha: $numeroFicha) ---")
-        if (historialMedico.isEmpty()) {
+        if (historialMedico.size == 0) {
             println("No hay atenciones registradas.")
         } else {
-            historialMedico.forEach { println(it) }
+            for (historia in historialMedico) {
+                println(historia)
+            }
         }
     }
 

@@ -11,7 +11,12 @@ class GestorRefugio {
     }
 
     fun buscarPorFicha(ficha: String): Animal? {
-        return listaAnimales.find { it.numeroFicha == ficha }
+        for (animal in listaAnimales) {
+            if (animal.numeroFicha == ficha) {
+                return animal
+            }
+        }
+        return null
     }
 
     fun actualizarEstadoAnimal(ficha: String, nuevoEstado: String) {
@@ -29,7 +34,18 @@ class GestorRefugio {
         if (animal != null) {
             if (animal.estado == "Listo") {
                 animal.asignarAdoptante(adoptante)
-                if (!listaAdoptantes.contains(adoptante)) registrarAdoptante(adoptante)
+
+                var yaExiste = false
+                for (a in listaAdoptantes) {
+                    if (a == adoptante) {
+                        yaExiste = true
+                        break
+                    }
+                }
+                if (!yaExiste) {
+                    registrarAdoptante(adoptante)
+                }
+
                 println("¡Éxito! ${animal.nombre} ha sido adoptado por ${adoptante.nombreCompleto}.")
             } else {
                 println("El animal ${animal.nombre} no está listo para adopción. Estado actual: ${animal.estado}")
@@ -41,11 +57,19 @@ class GestorRefugio {
 
     fun mostrarPorEstado(estado: String) {
         println("\n--- ANIMALES EN ESTADO: ${estado.uppercase()} ---")
-        val filtrados = listaAnimales.filter { it.estado.equals(estado, ignoreCase = true) }
-        if (filtrados.isEmpty()) {
+        val filtrados = arrayListOf<Animal>()
+        for (animal in listaAnimales) {
+            if (animal.estado.lowercase() == estado.lowercase()) {
+                filtrados.add(animal)
+            }
+        }
+
+        if (filtrados.size == 0) {
             println("No hay animales en este estado.")
         } else {
-            filtrados.forEach { println(it) }
+            for (animalFiltrado in filtrados) {
+                println(animalFiltrado)
+            }
         }
     }
 }
