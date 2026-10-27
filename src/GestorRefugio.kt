@@ -1,15 +1,27 @@
 class GestorRefugio {
     private val listaAnimales = arrayListOf<Animal>()
+    private val listaAdoptantes = arrayListOf<Adoptante>()
 
     fun agregarAnimal(animal: Animal) {
         listaAnimales.add(animal)
     }
 
+    fun registrarAdoptante(adoptante: Adoptante) {
+        listaAdoptantes.add(adoptante)
+    }
+
     fun buscarPorFicha(ficha: String): Animal? {
-        for (animal in listaAnimales) {
-            if (animal.numeroFicha == ficha) return animal
+        return listaAnimales.find { it.numeroFicha == ficha }
+    }
+
+    fun actualizarEstadoAnimal(ficha: String, nuevoEstado: String) {
+        val animal = buscarPorFicha(ficha)
+        if (animal != null) {
+            animal.cambiarEstado(nuevoEstado)
+            println("El estado de ${animal.nombre} ha sido actualizado a: $nuevoEstado.")
+        } else {
+            println("No se encontró la ficha $ficha.")
         }
-        return null
     }
 
     fun procesarAdopcion(ficha: String, adoptante: Adoptante) {
@@ -17,6 +29,7 @@ class GestorRefugio {
         if (animal != null) {
             if (animal.estado == "Listo") {
                 animal.asignarAdoptante(adoptante)
+                if (!listaAdoptantes.contains(adoptante)) registrarAdoptante(adoptante)
                 println("¡Éxito! ${animal.nombre} ha sido adoptado por ${adoptante.nombreCompleto}.")
             } else {
                 println("El animal ${animal.nombre} no está listo para adopción. Estado actual: ${animal.estado}")
@@ -26,14 +39,13 @@ class GestorRefugio {
         }
     }
 
-    fun mostrarListosParaAdopcion() {
-        println("--- ANIMALES LISTOS PARA ADOPCIÓN ---")
-        val filtrados = arrayListOf<Animal>()
-        for (animal in listaAnimales) {
-            if (animal.estado == "Listo") filtrados.add(animal)
-        }
-        for (animal in filtrados) {
-            println(animal)
+    fun mostrarPorEstado(estado: String) {
+        println("\n--- ANIMALES EN ESTADO: ${estado.uppercase()} ---")
+        val filtrados = listaAnimales.filter { it.estado.equals(estado, ignoreCase = true) }
+        if (filtrados.isEmpty()) {
+            println("No hay animales en este estado.")
+        } else {
+            filtrados.forEach { println(it) }
         }
     }
 }

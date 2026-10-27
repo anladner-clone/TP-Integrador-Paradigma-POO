@@ -1,19 +1,29 @@
-/*
-
-Enunciado:
-Un refugio de rescate de animales necesita un sistema para gestionar no solo el ingreso de las mascotas, sino también su seguimiento médico y el proceso de adopción. Actualmente, la información clínica de los animales y los datos de las familias adoptantes se pierden entre distintos cuadernos de papel. Se requiere un programa que permita registrar a cada animal, documentar sus visitas al veterinario, gestionar la asignación de familias adoptantes y generar listados automáticos para saber qué animales ya están en condiciones de irse a un nuevo hogar.
-
-*/
-
 fun main() {
-    val animal1 = Animal("213", "Rodolfo", "Delmo", 12, "Listo")
-    val animal2 = Animal("123", "Angel", "Delmo", 12, "Listo")
-    val adoptante = Adoptante("12345678","Ariel Ladner", "+543564999999")
-    val atencionMedica = AtencionMedica("12/04", "Nada", "Nicolas")
-
     val gestorRefugio = GestorRefugio()
+
+    val animal1 = Animal("213", "Rodolfo", "Perro", 12, "En tratamiento")
+    val animal2 = Animal("123", "Angel", "Gato", 8, "Ingresado")
 
     gestorRefugio.agregarAnimal(animal1)
     gestorRefugio.agregarAnimal(animal2)
-    gestorRefugio.mostrarListosParaAdopcion()
+
+    val atencion1 = AtencionMedica("27/10", "Vacunación antirrábica y desparasitación", "Dr. Nicolás")
+    animal1.registrarAtencion(atencion1)
+
+    val atencion2 = AtencionMedica("28/10", "Control general. Alta médica.", "Dr. Nicolás")
+    animal1.registrarAtencion(atencion2)
+
+    println("\nConsultando historiales médicos:")
+    animal1.mostrarHistorialMedico()
+    animal2.mostrarHistorialMedico()
+
+    gestorRefugio.actualizarEstadoAnimal("213", "Listo")
+    gestorRefugio.actualizarEstadoAnimal("123", "Listo")
+
+    val familiaAdoptante = Adoptante("12345678", "Ariel Ladner", "+543564999999")
+    println("\nProcesando adopciones:")
+    gestorRefugio.procesarAdopcion("213", familiaAdoptante)
+
+    gestorRefugio.mostrarPorEstado("Listo")
+    gestorRefugio.mostrarPorEstado("Adoptado")
 }

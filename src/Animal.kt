@@ -3,7 +3,7 @@ class Animal(
     val nombre: String,
     val especie: String,
     val edadMeses: Int,
-    var estado: String // ("Listo", "Adoptado")
+    var estado: String // Ej: "Ingresado", "En tratamiento", "Listo", "Adoptado"
 ) {
     private val historialMedico = mutableListOf<AtencionMedica>()
 
@@ -14,13 +14,26 @@ class Animal(
         historialMedico.add(atencion)
     }
 
+    fun mostrarHistorialMedico() {
+        println("--- Historial Médico de $nombre (Ficha: $numeroFicha) ---")
+        if (historialMedico.isEmpty()) {
+            println("No hay atenciones registradas.")
+        } else {
+            historialMedico.forEach { println(it) }
+        }
+    }
+
+    fun cambiarEstado(nuevoEstado: String) {
+        this.estado = nuevoEstado
+    }
+
     fun asignarAdoptante(nuevoAdoptante: Adoptante) {
         this.adoptante = nuevoAdoptante
         this.estado = "Adoptado"
     }
 
     override fun toString(): String {
-        var texto = "Ficha: $numeroFicha | $nombre ($especie) | Estado: $estado"
+        var texto = "Ficha: $numeroFicha | $nombre ($especie) | Edad: $edadMeses meses | Estado: $estado"
         if (adoptante != null) {
             texto += "\n   -> Adoptado por: ${adoptante.toString()}"
         }
